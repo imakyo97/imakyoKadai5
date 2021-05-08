@@ -16,35 +16,29 @@ class ViewController: UIViewController {
     
     @IBAction private func resultBtn(_ sender: Any) {
         
-        //アラートを作る
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
-        alert.title = "課題5"
-        alert.addAction(
-            UIAlertAction(title: "OK", style: .default)
-        )
-        
-        //アラートメッセージを条件分岐させる
-        if textField1.text! == ""{
-            alert.message = "割られる数を入力して下さい"
-            self.present(alert, animated: true)
-            return
-        } else if textField2.text! == ""{
-            alert.message = "割る数を入力して下さい"
-            self.present(alert, animated: true)
-            return
-        } else if textField2.text == "0"{
-            alert.message = "割る数に0を入力しないで下さい"
-            self.present(alert, animated: true)
-            return
+        guard let num1 = Double(textField1.text!) else {
+            return printAlert(alertMessege: "割られる数を入力して下さい")
         }
-        
-        //割り算する
-        let num1 = Double(textField1.text!) ?? 0
-        let num2 = Double(textField2.text!) ?? 0
+        guard let num2 = Double(textField2.text!) else {
+            return printAlert(alertMessege: "割る数を入力して下さい")
+        }
+        guard num2 != 0 else {
+            return printAlert(alertMessege: "割る数に0を入力しないで下さい")
+        }
         resultLabel.text = String(num1/num2)
         
         //キーボード戻す
         view.endEditing(true)
+    }
+    
+    func printAlert(alertMessege: String) {
+        //アラートを作る
+        let alert = UIAlertController(title: "課題5", message: alertMessege, preferredStyle: .alert)
+        alert.addAction(
+            UIAlertAction(title: "OK", style: .default)
+        )
+        //アラートを表示させる
+        self.present(alert, animated: true, completion: nil)
     }
 }
 
